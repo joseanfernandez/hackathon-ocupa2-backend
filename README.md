@@ -1,7 +1,10 @@
 # Documentación
 
 ### Twitter
-* GET /twitter/follow?id={user_id}&action={follow/unfollow}
+* *Follow* 
+```console
+  GET /twitter/follow?id={user_id}&action={follow/unfollow}
+```
 * GET /twitter/getTweets/category?name={category}  (Usa nuestra bbdd elasticsearch)
 * GET /twitter/getTweets/hashtag?name={hashtag}  (Usa nuestra bbdd elasticsearch)
 * GET /twitter/getTweetsFromApi?name={hashtag}  (Usa directamente la API proporcionada, devolviendo tweet con detalles)
