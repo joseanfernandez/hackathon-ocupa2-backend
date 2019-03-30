@@ -20,11 +20,24 @@ module.exports = [
 
   {
     method: 'GET',
+    path: '/twitter/getTweets',
+    handler: async (request, h) => {
+      const path = request.path.slice(1, request.path.length)
+      const name = request.query.name ? request.query.name : null
+      try {
+        return await twFun.getTweets(name)
+      } catch (ex) {
+        Log.error('Error in ' + path)
+        return 'Something was wrong...'
+      }
+    }
+  },
+
+  {
+    method: 'GET',
     path: '/twitter/getTweetsFromHashtag',
     handler: async (request, h) => {
       const path = request.path.slice(1, request.path.length)
-      const social = request.params.social ? request.params.social : null
-      Log.info(social)
       const name = request.query.name ? request.query.name : null
       try {
         return await twFun.getTweetsFromHashtag(name)
