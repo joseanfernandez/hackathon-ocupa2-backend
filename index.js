@@ -7,7 +7,7 @@ const server = Hapi.server({
   host: 'localhost'
 })
 
-router.forEach((route) => { server.route(route) })
+igRouter.forEach((route) => { server.route(route) })
 
 const init = async () => {
   await server.start()

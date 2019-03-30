@@ -7,6 +7,6 @@ module.exports = {
 
   tech: ['technology', 'science', 'bigdata', 'iphone', 'ios', 'android', 'mobile', 'video', 'design', 'innovation', 'startups', 'tech', 'cloud', 'gadget', 'instatech', 'electronic', 'device', 'techtrends', 'technews', 'engineering'],
 
-  travel: ['travel', 'instatravel', 'travelgram', 'tourist', 'tourism', 'vacation', 'traveling', 'travelblogger', 'wanderlust', 'ilovetravel', 'instavacation', 'traveldeeper', 'getaway', 'wanderer', 'adventure', 'travelphotography', 'roadtrip', 'mytravelgram', 'igtravel', 'traveler'],
+  travel: ['travel', 'instatravel', 'travelgram', 'tourist', 'tourism', 'vacation', 'traveling', 'travelblogger', 'wanderlust', 'ilovetravel', 'instavacation', 'traveldeeper', 'getaway', 'wanderer', 'adventure', 'travelphotography', 'roadtrip', 'mytravelgram', 'igtravel', 'traveler']
 
 }

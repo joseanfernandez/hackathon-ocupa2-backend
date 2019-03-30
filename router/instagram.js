@@ -1,17 +1,55 @@
 module.exports = [
   {
     method: 'GET',
+    path: '/follow',
+    handler: async (request, h) => {
+      const id = request.query.id ? request.query.id : null
+      const action = request.query.action ? request.query.action : null
+
+      let res
+
+      try {
+        res = await igFun.follow(id, action)
+      } catch (ex) {
+        Log.error('Error while try to ' + action)
+      }
+
+      return res
+    }
+  },
+
+  {
+    method: 'GET',
     path: '/hashtag/{name?}',
     handler: async (request, h) => {
       const name = request.params.name ? request.params.name : null
       let res
 
       try {
-        const hashtagId = await fun.searchHashtagId(name)
+        const hashtagId = await igFun.searchHashtagId(name)
         res = hashtagId
       } catch (ex) {
         Log.error('Error while try to get #' + name)
-        res = await fun.getHashtag(name, '')
+        res = await igFun.getHashtag(name, '')
+      }
+
+      return res
+    }
+  },
+
+  {
+    method: 'GET',
+    path: '/like',
+    handler: async (request, h) => {
+      const id = request.query.id ? request.query.id : null
+      const action = request.query.action ? request.query.action : null
+
+      let res = {}
+
+      try {
+        res = await igFun.like(id, action)
+      } catch (ex) {
+        Log.error('Error while try to ' + action)
       }
 
       return res
@@ -25,7 +63,7 @@ module.exports = [
       const path = request.path.slice(1, request.path.length)
 
       try {
-        return await fun.populateInstagramHashtagIndex()
+        return await igFun.populateInstagramHashtagIndex()
       } catch (ex) {
         Log.error('Error in ' + path)
         return 'Something was wrong...'
@@ -43,7 +81,7 @@ module.exports = [
       const name = request.query.name ? request.query.name : null
       const type = request.query.type ? request.query.type : null
       try {
-        return await fun.savePostsFromHashtag(social, name, type)
+        return await igFun.savePostsFromHashtag(social, name, type)
       } catch (ex) {
         Log.error('Error in ' + path)
         return 'Something was wrong...'
@@ -55,11 +93,10 @@ module.exports = [
     method: 'GET',
     path: '/saveHashtag/{name?}',
     handler: async (request, h) => {
-      // const path = request.path.slice(1, request.path.length)
       const name = request.params.name ? request.params.name : null
 
       try {
-        await fun.saveHashtag(1, name)
+        await igFun.saveHashtag(1, name)
       } catch (ex) {
         Log.error('Error while try to get #' + name)
         return {}
@@ -71,18 +108,19 @@ module.exports = [
     method: 'GET',
     path: '/test/{id?}',
     handler: async (request, h) => {
+      const path = request.path.slice(1, request.path.length)
       const id = request.params.id ? request.params.id : null
 
       let res = {}
 
       try {
-        res = await fun.searchPostById(id)
+        res = await igFun.getUser(id)
       } catch (ex) {
-        Log.error('Error while try to get #' + name)
+        Log.error('Error in' + path)
       }
 
       return res
     }
-  },
+  }
 
 ]
