@@ -12,7 +12,6 @@ router.forEach((route) => { server.route(route) })
 const init = async () => {
   await server.start()
   Log.success(`Server running at: ${server.info.uri}`)
-  Log.info(config.userid)
 }
 
 process.on('unhandledRejection', (err) => {
