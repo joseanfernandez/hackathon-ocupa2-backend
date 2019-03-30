@@ -1,6 +1,6 @@
 /* eslint-disable no-global-assign */
 client = null
-config = require('./config.js')
+config = require('./config')
 elasticsearch = require('elasticsearch')
 igFun = require('./functions/instagram')
 Hapi = require('hapi')

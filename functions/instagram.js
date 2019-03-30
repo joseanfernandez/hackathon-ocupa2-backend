@@ -1,5 +1,17 @@
+async function follow (id, action) {
+  const url = urlOcupa2 + 'instagram/' + id + '/follow?user_id=' + config.igUserid + '&action=' + action
+  const { payload } = await Wreck.get(url)
+  if (payload.length > 0) {
+    let payson = JSON.parse(payload)
+    return payson
+  } else {
+    Log.error('empty')
+    return {}
+  }
+}
+
 async function getHashtag (name, category) {
-  const url = urlOcupa2 + 'instagram/ig_hashtag_search?q=' + name + '&user_id=' + config.userid
+  const url = urlOcupa2 + 'instagram/ig_hashtag_search?q=' + name + '&user_id=' + config.igUserid
   const { payload } = await Wreck.get(url)
   if (payload.length > 0) {
     let payson = JSON.parse(payload)
@@ -55,25 +67,11 @@ async function getUser (id) {
   }
 }
 
-async function follow (id, action) {
-  const url = urlOcupa2 + 'instagram/' + id + '/follow?user_id=' + config.userid + '&action=' + action
-  const { payload } = await Wreck.get(url)
-  if (payload.length > 0) {
-    let payson = JSON.parse(payload)
-    Log.info(payson)
-    return payson
-  } else {
-    Log.error('empty')
-    return {}
-  }
-}
-
 async function like (id, action) {
-  const url = urlOcupa2 + 'instagram/media/' + id + '/like?user_id=' + config.userid + '&action=' + action
+  const url = urlOcupa2 + 'instagram/media/' + id + '/like?user_id=' + config.igUserid + '&action=' + action
   const { payload } = await Wreck.get(url)
   if (payload.length > 0) {
     let payson = JSON.parse(payload)
-    Log.info(payson)
     return payson
   } else {
     Log.error('empty')
@@ -115,7 +113,7 @@ async function savePostsFromHashtag (social, name, type) {
     id = await fun.getHashtag(name, '')
   }
 
-  const url = urlOcupa2 + social + '/' + id + '/' + type + '?user_id=' + config.userid
+  const url = urlOcupa2 + social + '/' + id + '/' + type + '?user_id=' + config.igUserid
 
   Log.info(url)
 
