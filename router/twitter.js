@@ -20,6 +20,23 @@ module.exports = [
 
   {
     method: 'GET',
+    path: '/twitter/getTweetsFromHashtag',
+    handler: async (request, h) => {
+      const path = request.path.slice(1, request.path.length)
+      const social = request.params.social ? request.params.social : null
+      Log.info(social)
+      const name = request.query.name ? request.query.name : null
+      try {
+        return await twFun.getTweetsFromHashtag(name)
+      } catch (ex) {
+        Log.error('Error in ' + path)
+        return 'Something was wrong...'
+      }
+    }
+  },
+
+  {
+    method: 'GET',
     path: '/twitter/like',
     handler: async (request, h) => {
       const id = request.query.id ? request.query.id : null
@@ -56,17 +73,15 @@ module.exports = [
       return res
     }
   },
+
   {
     method: 'GET',
-    path: '/twitter/tweetsFromHashtag/{social?}',
+    path: '/twitter/saveTweetsFromHashtag',
     handler: async (request, h) => {
       const path = request.path.slice(1, request.path.length)
-      const social = request.params.social ? request.params.social : null
-      Log.info(social)
       const name = request.query.name ? request.query.name : null
-      const type = request.query.type ? request.query.type : null
       try {
-        return await igFun.savePostsFromHashtag(social, name, type)
+        return await twFun.saveTweetsFromHashtag(name)
       } catch (ex) {
         Log.error('Error in ' + path)
         return 'Something was wrong...'

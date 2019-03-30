@@ -150,15 +150,6 @@ async function savePostsFromHashtag (social, name, type) {
           res.result === 'created' ? Log.info('#' + name + ' saved') : Log.error('Error')
         })
       }
-      await client.index({
-        index: 'instagram_posts',
-        type: '_doc',
-        id: posts[i].id,
-        body: posts[i]
-
-      }).then(res => {
-        res.result === 'created' ? Log.info('#' + name + ' saved') : Log.error('Error')
-      })
     }
   } else {
     Log.error('empty')
