@@ -1,8 +1,13 @@
 /* eslint-disable no-global-assign */
+client = null
+config = require('./config')
+elasticsearch = require('elasticsearch')
+igFun = require('./functions/instagram')
 Hapi = require('hapi')
-Wreck = require('wreck')
-logSymbols = require('log-symbols')
+hashtags = require('./hashtags')
 Log = require('./log')
-router = require('./router')
-fun = require('./functions')
+logSymbols = require('log-symbols')
+igRouter = require('./router/instagram')
+urlOcupa2 = 'http://Hackathon.ocupa2.com/'
+Wreck = require('wreck')
 /* eslint-enable no-global-assign */

@@ -7,7 +7,7 @@ const server = Hapi.server({
   host: 'localhost'
 })
 
-router.forEach((route) => { server.route(route) })
+igRouter.forEach((route) => { server.route(route) })
 
 const init = async () => {
   await server.start()
@@ -18,4 +18,16 @@ process.on('unhandledRejection', (err) => {
   Log.error(err)
 })
 
-init()
+/* eslint-disable no-global-assign */
+client = new elasticsearch.Client({
+  host: 'localhost:9200',
+  log: 'trace'
+})
+/* eslint-enable no-global-assign */
+
+client.ping()
+  .then((res) => {
+    Log.success('Connected to Elasticsearch.')
+    init()
+  })
+  .catch(err => Log.error(err))
