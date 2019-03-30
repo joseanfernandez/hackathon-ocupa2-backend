@@ -4,6 +4,12 @@ function error (text) {
     logSymbols.info, '\x1b[36m', '' + timestamp, '\x1b[0m')
 }
 
+function info (text) {
+  let timestamp = new Date()
+  console.log('\x1b[30m', '\x1b[46m', text, '\x1b[0m',
+    logSymbols.info, '\x1b[36m', '' + timestamp, '\x1b[0m')
+}
+
 function success (text) {
   let timestamp = new Date()
   console.log(logSymbols.success, text,
@@ -18,6 +24,7 @@ function warning (text) {
 
 module.exports = {
   error,
+  info,
   success,
   warning
 }

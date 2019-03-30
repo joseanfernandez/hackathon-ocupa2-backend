@@ -1,8 +1,12 @@
 /* eslint-disable no-global-assign */
-Hapi = require('hapi')
-Wreck = require('wreck')
-logSymbols = require('log-symbols')
-Log = require('./log')
-router = require('./router')
+client = null
+config = require('./config.js')
+elasticsearch = require('elasticsearch')
 fun = require('./functions')
+Hapi = require('hapi')
+Log = require('./log')
+logSymbols = require('log-symbols')
+router = require('./router')
+urlOcupa2 = 'http://Hackathon.ocupa2.com/'
+Wreck = require('wreck')
 /* eslint-enable no-global-assign */
