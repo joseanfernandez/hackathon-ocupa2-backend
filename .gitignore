@@ -62,3 +62,4 @@ typings/
 
 # File with developer keys
 config.js
+config/
