@@ -8,6 +8,7 @@ const server = Hapi.server({
 })
 
 igRouter.forEach((route) => { server.route(route) })
+twRouter.forEach((route) => { server.route(route) })
 
 const init = async () => {
   await server.start()

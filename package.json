@@ -32,6 +32,8 @@
       "Log",
       "logSymbols",
       "router",
+      "twFun",
+      "twRouter",
       "urlOcupa2",
       "Wreck"
     ]

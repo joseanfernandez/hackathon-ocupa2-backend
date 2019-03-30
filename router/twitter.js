@@ -9,7 +9,7 @@ module.exports = [
       let res
 
       try {
-        res = await igFun.follow(id, action)
+        res = await twFun.follow(id, action)
       } catch (ex) {
         Log.error('Error while try to ' + action)
       }
@@ -28,7 +28,7 @@ module.exports = [
       let res = {}
 
       try {
-        res = await igFun.like(id, action)
+        res = await twFun.like(id, action)
       } catch (ex) {
         Log.error('Error while try to ' + action)
       }
@@ -48,7 +48,7 @@ module.exports = [
       let res = {}
 
       try {
-        res = await igFun.retweet(id, action)
+        res = await twFun.retweet(id, action)
       } catch (ex) {
         Log.error('Error while try to ' + action)
       }
