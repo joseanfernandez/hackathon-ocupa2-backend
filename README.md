@@ -11,10 +11,11 @@
     npm start
 ```
 
-* Usa las dos primeras rutas del apartado **General** en el orden establecido:
+* Usa las dos primeras rutas del apartado **General** en el orden establecido.   
+Con esto tendrás creados los índices necesarios y almacenado los hashtags con su id para futuras consultas.
+
     - /elasticSetup
     - /populateHashtagIndex
-  Con esto tendrás creados los índices necesarios y almacenado los hashtags con su id para futuras consultas.
 
 
 ## General
