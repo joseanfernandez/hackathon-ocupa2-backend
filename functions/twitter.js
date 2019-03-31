@@ -25,7 +25,16 @@ async function getMetadataTweet(id) {
   }
 }
 
-async function getTweets(hashtag) {
+async function getTweetsByCategory(category) {
+  const res = await client.search({
+    index: 'twitter_tweets',
+    q: 'category:' + category
+  })
+
+  return res.hits.hits
+}
+
+async function getTweetsByHashtag(hashtag) {
   const res = await client.search({
     index: 'twitter_tweets',
     q: 'hashtag:' + hashtag
@@ -34,7 +43,7 @@ async function getTweets(hashtag) {
   return res.hits.hits
 }
 
-async function getTweetsFromHashtag(name) {
+async function getTweetsFromApi(name) {
   const url = urlOcupa2 + 'twitter/1.1/search/tweets.json?q=' + name
 
   Log.info(url)
@@ -53,6 +62,7 @@ async function getTweetsFromHashtag(name) {
       tweet.retweetCount = res.retweetCount ? res.retweetCount : 0
       tweet.replyCount = res.replyCount ? res.replyCount : 0
       tweet.hashtag = name
+      tweet.category = await fun.searchCategory(name)
       Log.info(tweet)
       tweets.push(tweet)
     }
@@ -105,7 +115,7 @@ async function retweet(id, action) {
   }
 }
 
-async function saveTweetsFromHashtag(name) {
+async function saveTweetsFromApi(name) {
   const url = urlOcupa2 + 'twitter/1.1/search/tweets.json?q=' + name
 
   Log.info(url)
@@ -124,6 +134,7 @@ async function saveTweetsFromHashtag(name) {
       tweet.retweetCount = res.retweetCount ? res.retweetCount : 0
       tweet.replyCount = res.replyCount ? res.replyCount : 0
       tweet.hashtag = name
+      tweet.category = await searchCategory(name)
       Log.info(tweet)
       tweets.push(tweet)
       await client.index({
@@ -145,9 +156,10 @@ async function saveTweetsFromHashtag(name) {
 
 module.exports = {
   follow,
-  getTweets,
-  getTweetsFromHashtag,
+  getTweetsByCategory,
+  getTweetsByHashtag,
+  getTweetsFromApi,
   like,
   retweet,
-  saveTweetsFromHashtag
+  saveTweetsFromApi
 }

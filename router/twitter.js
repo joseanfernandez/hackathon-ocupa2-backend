@@ -20,12 +20,12 @@ module.exports = [
 
   {
     method: 'GET',
-    path: '/twitter/getTweets',
+    path: '/twitter/getTweets/category',
     handler: async (request, h) => {
       const path = request.path.slice(1, request.path.length)
       const name = request.query.name ? request.query.name : null
       try {
-        return await twFun.getTweets(name)
+        return await twFun.getTweetsByCategory(name)
       } catch (ex) {
         Log.error('Error in ' + path)
         return 'Something was wrong...'
@@ -35,12 +35,27 @@ module.exports = [
 
   {
     method: 'GET',
-    path: '/twitter/getTweetsFromHashtag',
+    path: '/twitter/getTweets/hashtag',
     handler: async (request, h) => {
       const path = request.path.slice(1, request.path.length)
       const name = request.query.name ? request.query.name : null
       try {
-        return await twFun.getTweetsFromHashtag(name)
+        return await twFun.getTweetsByHashtag(name)
+      } catch (ex) {
+        Log.error('Error in ' + path)
+        return 'Something was wrong...'
+      }
+    }
+  },
+
+  {
+    method: 'GET',
+    path: '/twitter/getTweetsFromApi',
+    handler: async (request, h) => {
+      const path = request.path.slice(1, request.path.length)
+      const name = request.query.name ? request.query.name : null
+      try {
+        return await twFun.getTweetsFromApi(name)
       } catch (ex) {
         Log.error('Error in ' + path)
         return 'Something was wrong...'
@@ -89,12 +104,12 @@ module.exports = [
 
   {
     method: 'GET',
-    path: '/twitter/saveTweetsFromHashtag',
+    path: '/twitter/saveTweetsFromApi',
     handler: async (request, h) => {
       const path = request.path.slice(1, request.path.length)
       const name = request.query.name ? request.query.name : null
       try {
-        return await twFun.saveTweetsFromHashtag(name)
+        return await twFun.saveTweetsFromApi(name)
       } catch (ex) {
         Log.error('Error in ' + path)
         return 'Something was wrong...'
