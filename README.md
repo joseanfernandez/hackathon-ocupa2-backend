@@ -1,6 +1,6 @@
 # Documentación
 
-### Twitter
+## Twitter
 * **Follow** 
 ```console
   GET /twitter/follow?id={user_id}&action={follow/unfollow}
@@ -37,4 +37,4 @@
 ```
 
   (Guarda en elasticsearch todos los tweets con detalles)
-### Instagram
+## Instagram
