@@ -48,8 +48,6 @@ async function getTweetsByHashtag (hashtag) {
 async function getTweetsFromApi (name) {
   const url = urlOcupa2 + 'twitter/1.1/search/tweets.json?q=' + name
 
-  Log.info(url)
-
   const { payload } = await Wreck.get(url)
   if (payload.length > 0) {
     let payson = JSON.parse(payload)
@@ -66,7 +64,6 @@ async function getTweetsFromApi (name) {
       tweet.userName = payson[i].screenName
       tweet.hashtag = name
       tweet.category = await fun.searchCategory(name)
-      Log.info(tweet)
       tweets.push(tweet)
     }
 
@@ -122,8 +119,6 @@ async function retweet (id, action) {
 async function saveTweetsFromApi (name) {
   const url = urlOcupa2 + 'twitter/1.1/search/tweets.json?q=' + name
 
-  Log.info(url)
-
   const { payload } = await Wreck.get(url)
   if (payload.length > 0) {
     let payson = JSON.parse(payload)
@@ -139,7 +134,6 @@ async function saveTweetsFromApi (name) {
       tweet.replyCount = res.replyCount ? res.replyCount : 0
       tweet.hashtag = name
       tweet.category = await fun.searchCategory(name)
-      Log.info(tweet)
       tweets.push(tweet)
       await client.index({
         index: 'twitter_tweets',
