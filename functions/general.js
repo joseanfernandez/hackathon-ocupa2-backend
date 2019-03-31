@@ -10,6 +10,14 @@ async function getHashtag (name, category) {
   }
 }
 
+async function getHashtags() {
+  const res = await client.search({
+    index: 'hashtags',
+  })
+
+  return res.hits.hits
+}
+
 async function populateHashtagIndex () {
   for (let i in hashtags.fashion) {
     await getHashtag(hashtags.fashion[i], 'fashion')
@@ -83,6 +91,7 @@ async function searchHashtagId (name) {
 
 module.exports = {
   getHashtag,
+  getHashtags,
   populateHashtagIndex,
   saveHashtag,
   searchCategory,
