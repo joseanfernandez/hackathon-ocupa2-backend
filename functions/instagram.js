@@ -10,38 +10,46 @@ async function follow (id, action) {
   }
 }
 
-async function getHashtag (name, category) {
-  const url = urlOcupa2 + 'instagram/ig_hashtag_search?q=' + name + '&user_id=' + config.igUserid
-  const { payload } = await Wreck.get(url)
-  if (payload.length > 0) {
-    let payson = JSON.parse(payload)
-    return saveHashtag(payson.id, name, category)
-  } else {
-    Log.error('empty')
-    return {}
-  }
-}
-
 async function getMetadataPost (id) {
   const url = urlOcupa2 + 'instagram/media/' + id + '?fields=username'
   const { payload } = await Wreck.get(url)
   if (payload.length > 0) {
     let payson = JSON.parse(payload)
     Log.info(payson)
-    /*
-    if (payson.userId) {
-      const exists = await searchUserById(payson.userId)
-      if (exists) {
-        return payson.userId
-      } else {
-        getUser(payson.userId)
-      }
-    }
-    */
+    return payson[0].userId
   } else {
     Log.error('empty')
     return {}
   }
+}
+
+async function getPostsByCategory (category) {
+  const res = await client.search({
+    index: 'instagram_posts',
+    q: 'category:' + category,
+    size: 10000
+  })
+
+  return res.hits.hits
+}
+
+async function getPostsByHashtag (hashtag) {
+  const res = await client.search({
+    index: 'instagram_posts',
+    q: 'hashtag:' + hashtag,
+    size: 10000
+  })
+
+  return res.hits.hits
+}
+
+async function getPostById (id) {
+  const res = await client.search({
+    index: 'instagram_posts',
+    q: 'id:' + id
+  })
+
+  return res.hits.hits.length > 0
 }
 
 async function getUser (id) {
@@ -51,16 +59,6 @@ async function getUser (id) {
     let payson = JSON.parse(payload)
     Log.info(payson[0])
     return payson[0]
-    /*
-    await client.index({
-      index: 'instagram_users',
-      type: '_doc',
-      id: id,
-      body: payson[0]
-    }).then(res => {
-      res.result === 'created' ?  Log.info('#' + name + ' saved') : Log.error('Error')
-    })
-    */
   } else {
     Log.error('empty')
     return {}
@@ -79,41 +77,15 @@ async function like (id, action) {
   }
 }
 
-async function populateInstagramHashtagIndex () {
-  Log.info(hashtags.fashion)
-  for (let i in hashtags.fashion) {
-    await getHashtag(hashtags.fashion[i], 'fashion')
-  }
-
-  for (let i in hashtags.fitness) {
-    await getHashtag(hashtags.fitness[i], 'fitness')
-  }
-
-  for (let i in hashtags.food) {
-    await getHashtag(hashtags.food[i], 'food')
-  }
-
-  for (let i in hashtags.tech) {
-    await getHashtag(hashtags.tech[i], 'tech')
-  }
-
-  for (let i in hashtags.travel) {
-    await getHashtag(hashtags.travel[i], 'travel')
-  }
-
-  return 'Completed!'
-}
-
-async function savePostsFromHashtag (social, name, type) {
+async function savePostsFromApi (name, type) {
   let id
-  Log.info(social, name, type)
   try {
     id = await fun.searchHashtagId(name)
   } catch (ex) {
     id = await fun.getHashtag(name, '')
   }
 
-  const url = urlOcupa2 + social + '/' + id + '/' + type + '?user_id=' + config.igUserid
+  const url = urlOcupa2 + 'instagram/' + id + '/' + type + '?user_id=' + config.igUserid
 
   Log.info(url)
 
@@ -124,7 +96,7 @@ async function savePostsFromHashtag (social, name, type) {
     Log.info(payson.data)
     const posts = payson.data
     for (let i in posts) {
-      const exists = await searchPostById(posts[i].id)
+      const exists = await getPostById(posts[i].id)
 
       if (exists) {
         await client.update({
@@ -138,16 +110,25 @@ async function savePostsFromHashtag (social, name, type) {
             }
           }
         }).then(res => {
-          res.result === 'created' ? Log.info('#' + name + ' saved') : Log.error('Error')
+          res.result === 'created' ? Log.info('Updated') : Log.error('Error')
         })
       } else {
+        const userId = await getMetadataPost(posts[i].id)
+        posts[i].userId = userId
+        const user = await getUser(userId)
+        Log.error(user)
+        posts[i].userName = user.username
+        posts[i].userFollowerCount = user.followerCount
+        posts[i].userMediaCount = user.mediaCount
+        posts[i].hashtag = name
+        posts[i].category = await fun.searchCategory(name)
         await client.index({
           index: 'instagram_posts',
           type: '_doc',
           id: posts[i].id,
           body: posts[i]
         }).then(res => {
-          res.result === 'created' ? Log.info('#' + name + ' saved') : Log.error('Error')
+          res.result === 'created' ? Log.info('Created') : Log.error('Error')
         })
       }
     }
@@ -157,59 +138,11 @@ async function savePostsFromHashtag (social, name, type) {
   }
 }
 
-async function saveHashtag (id, name, category) {
-  await client.index({
-    index: 'instagram_hashtags',
-    type: '_doc',
-    id: id,
-    body: {
-      name: name,
-      category: category
-    }
-  }).then(res => {
-    res.result === 'created' ? Log.info('#' + name + ' saved') : Log.error('Error')
-  })
-
-  return id
-}
-
-async function searchHashtagId (name) {
-  const res = await client.search({
-    index: 'instagram_hashtags',
-    q: 'name:' + name
-  })
-
-  return res.hits.hits[0]._id
-}
-
-async function searchPostById (id) {
-  const res = await client.search({
-    index: 'instagram_posts',
-    q: 'id:' + id
-  })
-
-  return res.hits.hits.length > 0
-}
-
-async function searchUserById (id) {
-  const res = await client.search({
-    index: 'instagram_users',
-    q: 'id:' + id
-  })
-
-  return res.hits.hits.length > 0
-}
-
 module.exports = {
-  getHashtag,
-  getMetadataPost,
-  getUser,
   follow,
+  getPostsByCategory,
+  getPostsByHashtag,
+  getUser,
   like,
-  populateInstagramHashtagIndex,
-  savePostsFromHashtag,
-  saveHashtag,
-  searchHashtagId,
-  searchPostById,
-  searchUserById
+  savePostsFromApi
 }

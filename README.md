@@ -1,5 +1,27 @@
 # Documentación
 
+## General
+* **Configuración de elasticsearch**
+```console
+  GET /elasticSetup
+```
+
+Para mayor comodidad, se ha creado una ruta que genera los índices con el mapping en elasticsearch.
+* **Poblar base de de datos con todos los hashtags**
+```console
+  GET /populateHashtagIndex
+```
+
+Guarda todos los hashtags con su categoría e id para hacer las peticiones de los posts.
+Una vez guardado ese hashtag, el id se consultará en nuestra base de datos local (elasticsearch), 
+evitando peticiones a la API.
+
+* **Hashtags**
+```console
+  GET /hashtags
+```
+
+Listado de todos los hashtags almacenados en elasticsearch.
 ## Twitter
 * **Follow** 
 ```console

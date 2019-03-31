@@ -1,4 +1,4 @@
-async function follow(id, action) {
+async function follow (id, action) {
   let act
   action === 'follow' ? act = 'create.json' : act = 'destroy.json'
   const url = urlOcupa2 + 'twitter/1.1/friendships/' + act + '?user_id=' + id + '&bearer=' + config.twKey
@@ -12,7 +12,7 @@ async function follow(id, action) {
   }
 }
 
-async function getMetadataTweet(id) {
+async function getMetadataTweet (id) {
   const url = urlOcupa2 + 'twitter/1.1/statuses/retweets/' + id + '.json'
 
   const { payload } = await Wreck.get(url)
@@ -25,16 +25,27 @@ async function getMetadataTweet(id) {
   }
 }
 
-async function getTweets(hashtag) {
+async function getTweetsByCategory (category) {
   const res = await client.search({
     index: 'twitter_tweets',
-    q: 'hashtag:' + hashtag
+    q: 'category:' + category,
+    size: 10000
   })
 
   return res.hits.hits
 }
 
-async function getTweetsFromHashtag(name) {
+async function getTweetsByHashtag (hashtag) {
+  const res = await client.search({
+    index: 'twitter_tweets',
+    q: 'hashtag:' + hashtag,
+    size: 10000
+  })
+
+  return res.hits.hits
+}
+
+async function getTweetsFromApi (name) {
   const url = urlOcupa2 + 'twitter/1.1/search/tweets.json?q=' + name
 
   Log.info(url)
@@ -44,15 +55,17 @@ async function getTweetsFromHashtag(name) {
     let payson = JSON.parse(payload)
     let tweets = []
 
-    const uniqueArray = await removeDuplicates(payson, "tweetId");
+    const uniqueArray = await removeDuplicates(payson, 'tweetId')
 
     for (let i in uniqueArray) {
       const res = await getMetadataTweet(payson[i].tweetId)
       const tweet = payson[i]
       tweet.likeCount = res.likeCount ? res.likeCount : 0
       tweet.retweetCount = res.retweetCount ? res.retweetCount : 0
-      tweet.replyCount = res.replyCount ? res.replyCount : 0
+      tweet.commentCount = res.replyCount ? res.replyCount : 0
+      tweet.userName = payson[i].screenName
       tweet.hashtag = name
+      tweet.category = await fun.searchCategory(name)
       Log.info(tweet)
       tweets.push(tweet)
     }
@@ -64,7 +77,7 @@ async function getTweetsFromHashtag(name) {
   }
 }
 
-async function like(id, action) {
+async function like (id, action) {
   let act
   action === 'like' ? act = 'create.json' : act = 'destroy.json'
   const url = urlOcupa2 + 'twitter/1.1/favorites/' + act + '?id=' + id + '&bearer=' + config.twKey
@@ -78,21 +91,22 @@ async function like(id, action) {
   }
 }
 
-async function removeDuplicates(originalArray, prop) {
-  var newArray = [];
-  var lookupObject  = {};
+async function removeDuplicates (originalArray, prop) {
+  var newArray = []
+  var lookupObject = {}
 
-  for(var i in originalArray) {
-     lookupObject[originalArray[i][prop]] = originalArray[i];
+  for (var i in originalArray) {
+    lookupObject[originalArray[i][prop]] = originalArray[i]
   }
 
-  for(i in lookupObject) {
-      newArray.push(lookupObject[i]);
+  for (i in lookupObject) {
+    newArray.push(lookupObject[i])
   }
-   return newArray;
+  return newArray
 }
 
-async function retweet(id, action) {
+async function retweet (id, action) {
+  let act
   action === 'retweet' ? act = 'retweet' : act = 'unretweet'
   const url = urlOcupa2 + 'twitter/1.1/statuses/' + act + '/' + id + '.json?bearer=' + config.twKey
   const { payload } = await Wreck.get(url)
@@ -105,7 +119,7 @@ async function retweet(id, action) {
   }
 }
 
-async function saveTweetsFromHashtag(name) {
+async function saveTweetsFromApi (name) {
   const url = urlOcupa2 + 'twitter/1.1/search/tweets.json?q=' + name
 
   Log.info(url)
@@ -115,7 +129,7 @@ async function saveTweetsFromHashtag(name) {
     let payson = JSON.parse(payload)
     let tweets = []
 
-    const uniqueArray = await removeDuplicates(payson, "tweetId");
+    const uniqueArray = await removeDuplicates(payson, 'tweetId')
 
     for (let i in uniqueArray) {
       const res = await getMetadataTweet(payson[i].tweetId)
@@ -124,6 +138,7 @@ async function saveTweetsFromHashtag(name) {
       tweet.retweetCount = res.retweetCount ? res.retweetCount : 0
       tweet.replyCount = res.replyCount ? res.replyCount : 0
       tweet.hashtag = name
+      tweet.category = await fun.searchCategory(name)
       Log.info(tweet)
       tweets.push(tweet)
       await client.index({
@@ -132,7 +147,7 @@ async function saveTweetsFromHashtag(name) {
         id: tweet.tweetId,
         body: tweet
       }).then(res => {
-        res.result === 'created' ? Log.info('#' + name + ' saved') : Log.error('Error')
+        res.result === 'created' ? Log.info('Created') : Log.error('Error')
       })
     }
 
@@ -145,9 +160,10 @@ async function saveTweetsFromHashtag(name) {
 
 module.exports = {
   follow,
-  getTweets,
-  getTweetsFromHashtag,
+  getTweetsByCategory,
+  getTweetsByHashtag,
+  getTweetsFromApi,
   like,
   retweet,
-  saveTweetsFromHashtag
+  saveTweetsFromApi
 }
