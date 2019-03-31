@@ -60,7 +60,7 @@
   (Usa nuestra bbdd elasticsearch)
 * **Guardar posts desde la API**
 ```console
-  GET /instagram/savePostsFromApi?name={hashtag}  
+  GET /instagram/savePostsFromApi?name={hashtag}&type={recent_media/top_media}
 ```
 
   (Guarda en elasticsearch todos los posts con detalles)
