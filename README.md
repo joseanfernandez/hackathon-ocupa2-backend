@@ -1,5 +1,21 @@
 # Documentación
 
+## General
+* **Poblar base de de datos con todos los hashtags**
+```console
+  GET /populateHashtagIndex
+```
+
+Guarda todos los hashtags con su categoría e id para hacer las peticiones de los posts.
+Una vez guardado ese hashtag, el id se consultará en nuestra base de datos local (elasticsearch), 
+evitando peticiones a la API.
+
+* **Hashtags**
+```console
+  GET /hashtags
+```
+
+Listado de todos los hashtags almacenados en elasticsearch.
 ## Twitter
 * **Follow** 
 ```console
@@ -38,3 +54,29 @@
 
   (Guarda en elasticsearch todos los tweets con detalles)
 ## Instagram
+* **Follow** 
+```console
+  GET /instagram/follow?id={user_id}&action={follow/unfollow}
+```
+* **Like**
+```console
+  GET /instagram/like?id={postId}&action={like/dislike}
+```
+* **Posts por categoría**
+```console
+  GET /instagram/getPosts/category?name={category}  
+```
+
+  (Usa nuestra bbdd elasticsearch)
+* **Posts por hashtag**
+```console
+  GET /instagram/getPosts/hashtag?name={hashtag}  
+```
+
+  (Usa nuestra bbdd elasticsearch)
+* **Guardar posts desde la API**
+```console
+  GET /instagram/savePostsFromApi?name={hashtag}&type={recent_media/top_media}
+```
+
+  (Guarda en elasticsearch todos los posts con detalles)
