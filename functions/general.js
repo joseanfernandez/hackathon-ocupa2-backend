@@ -80,12 +80,12 @@ async function searchCategory (hashtag) {
     return 'food'
   }
 
-  if (hashtags.travel.includes(hashtag)) {
+  if (hashtags.tech.includes(hashtag)) {
     return 'tech'
   }
 
   if (hashtags.travel.includes(hashtag)) {
-    return 'fashion'
+    return 'travel'
   }
 }
 

@@ -28,8 +28,33 @@ async function getMetadataTweet (id) {
 async function getTweetsByCategory (category) {
   const res = await client.search({
     index: 'twitter_tweets',
-    q: 'category:' + category,
-    size: 10000
+    body: {
+      "query": {
+        "match": {
+          "category": category
+        }
+      },
+      "aggs" : {
+        "categories": {
+          "terms": {
+            "field": "category"
+          }
+        },
+        "hashtags": {
+          "terms": {
+            "field": "hashtag"
+          }
+        }
+      },
+      "sort": {
+        "_script": {
+          "type": "number",
+          "script": "return doc['likeCount'].value + (doc['replyCount'].value * 2) + (doc['retweetCount'].value * 3)",
+          "order": "desc"
+        }
+      },
+      "size": 20
+    }
   })
 
   return res.hits.hits
@@ -38,8 +63,33 @@ async function getTweetsByCategory (category) {
 async function getTweetsByHashtag (hashtag) {
   const res = await client.search({
     index: 'twitter_tweets',
-    q: 'hashtag:' + hashtag,
-    size: 10000
+    body: {
+      "query": {
+        "match": {
+          "hashtag": hashtag
+        }
+      },
+      "aggs" : {
+        "categories": {
+          "terms": {
+            "field": "category"
+          }
+        },
+        "hashtags": {
+          "terms": {
+            "field": "hashtag"
+          }
+        }
+      },
+      "sort": {
+        "_script": {
+          "type": "number",
+          "script": "return doc['likeCount'].value + (doc['replyCount'].value * 2) + (doc['retweetCount'].value * 3)",
+          "order": "desc"
+        }
+      },
+      "size": 20
+    }
   })
 
   return res.hits.hits
