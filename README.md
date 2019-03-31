@@ -46,3 +46,15 @@
 ```console
   GET /instagram/like?id={tweetId}&action={like/dislike}
 ```
+* **Posts por categoría**
+```console
+  GET /instagram/getPosts/category?name={category}  
+```
+
+  (Usa nuestra bbdd elasticsearch)
+* **Posts por hashtag**
+```console
+  GET /instagram/getPosts/hashtag?name={hashtag}  
+```
+
+  (Usa nuestra bbdd elasticsearch)
