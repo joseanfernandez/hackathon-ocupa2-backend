@@ -90,7 +90,7 @@ module.exports = [
     handler: async (request, h) => {
 
       try {
-        await igFun.getMetadataPost(108)
+        await igFun.getUser(1)
       } catch (ex) {
         Log.error('Error while try to get #' + name)
         return {}

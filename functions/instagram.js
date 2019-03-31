@@ -23,6 +23,35 @@ async function getMetadataPost (id) {
   }
 }
 
+async function getPostsByCategory (category) {
+  const res = await client.search({
+    index: 'instagram_posts',
+    q: 'category:' + category,
+    size: 10000
+  })
+
+  return res.hits.hits
+}
+
+async function getPostsByHashtag (hashtag) {
+  const res = await client.search({
+    index: 'instagram_posts',
+    q: 'hashtag:' + hashtag,
+    size: 10000,
+  })
+
+  return res.hits.hits
+}
+
+async function getPostById (id) {
+  const res = await client.search({
+    index: 'instagram_posts',
+    q: 'id:' + id
+  })
+
+  return res.hits.hits.length > 0
+}
+
 async function getUser (id) {
   const url = urlOcupa2 + 'instagram/' + id + '?fields=id,follower_count,media_count,username'
   const { payload } = await Wreck.get(url)
@@ -86,6 +115,11 @@ async function savePostsFromApi (name, type) {
       } else {
         const userId = await getMetadataPost(posts[i].id)
         posts[i].userId = userId
+        const user = await getUser(userId)
+        Log.error(user)
+        posts[i].userName = user.username
+        posts[i].userFollowerCount = user.followerCount
+        posts[i].userMediaCount = user.mediaCount
         posts[i].hashtag = name
         posts[i].category = await fun.searchCategory(name)
         await client.index({
@@ -103,34 +137,6 @@ async function savePostsFromApi (name, type) {
     return {}
   }
 }
-
-async function getPostsByCategory (category) {
-  const res = await client.search({
-    index: 'instagram_posts',
-    q: 'category:' + category
-  })
-
-  return res.hits.hits
-}
-
-async function getPostsByHashtag (hashtag) {
-  const res = await client.search({
-    index: 'instagram_posts',
-    q: 'hashtag:' + hashtag
-  })
-
-  return res.hits.hits
-}
-
-async function getPostById (id) {
-  const res = await client.search({
-    index: 'instagram_posts',
-    q: 'id:' + id
-  })
-
-  return res.hits.hits.length > 0
-}
-
 
 module.exports = {
   follow,

@@ -1,4 +1,12 @@
-async function getHashtag (name, category) {
+async function elasticSetup() {
+  await client.indices.create({ index: "hashtags", body: mappings.hashtags });
+  await client.indices.create({ index: "instagram_posts", body: mappings.instagram_posts });
+  await client.indices.create({ index: "twitter_tweets", body: mappings.twitter_tweets });
+
+  return 'Setup completed!'
+}
+
+async function getHashtag(name, category) {
   const url = urlOcupa2 + 'instagram/ig_hashtag_search?q=' + name + '&user_id=' + config.igUserid
   const { payload } = await Wreck.get(url)
   if (payload.length > 0) {
@@ -13,12 +21,13 @@ async function getHashtag (name, category) {
 async function getHashtags() {
   const res = await client.search({
     index: 'hashtags',
+    size: 10000
   })
 
   return res.hits.hits
 }
 
-async function populateHashtagIndex () {
+async function populateHashtagIndex() {
   for (let i in hashtags.fashion) {
     await getHashtag(hashtags.fashion[i], 'fashion')
   }
@@ -42,7 +51,7 @@ async function populateHashtagIndex () {
   return 'Completed!'
 }
 
-async function saveHashtag (id, name, category) {
+async function saveHashtag(id, name, category) {
   await client.index({
     index: 'hashtags',
     type: '_doc',
@@ -80,7 +89,7 @@ async function searchCategory(hashtag) {
   }
 }
 
-async function searchHashtagId (name) {
+async function searchHashtagId(name) {
   const res = await client.search({
     index: 'hashtags',
     q: 'name:' + name
@@ -89,11 +98,15 @@ async function searchHashtagId (name) {
   return res.hits.hits[0]._id
 }
 
+
+
+
 module.exports = {
+  elasticSetup,
   getHashtag,
   getHashtags,
   populateHashtagIndex,
   saveHashtag,
   searchCategory,
-  searchHashtagId
+  searchHashtagId,
 }

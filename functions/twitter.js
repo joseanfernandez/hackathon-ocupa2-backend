@@ -28,7 +28,8 @@ async function getMetadataTweet(id) {
 async function getTweetsByCategory(category) {
   const res = await client.search({
     index: 'twitter_tweets',
-    q: 'category:' + category
+    q: 'category:' + category,
+    size: 10000
   })
 
   return res.hits.hits
@@ -37,7 +38,8 @@ async function getTweetsByCategory(category) {
 async function getTweetsByHashtag(hashtag) {
   const res = await client.search({
     index: 'twitter_tweets',
-    q: 'hashtag:' + hashtag
+    q: 'hashtag:' + hashtag,
+    size: 10000
   })
 
   return res.hits.hits
@@ -60,7 +62,8 @@ async function getTweetsFromApi(name) {
       const tweet = payson[i]
       tweet.likeCount = res.likeCount ? res.likeCount : 0
       tweet.retweetCount = res.retweetCount ? res.retweetCount : 0
-      tweet.replyCount = res.replyCount ? res.replyCount : 0
+      tweet.commentCount = res.replyCount ? res.replyCount : 0
+      tweet.userName = payson[i].screenName
       tweet.hashtag = name
       tweet.category = await fun.searchCategory(name)
       Log.info(tweet)
