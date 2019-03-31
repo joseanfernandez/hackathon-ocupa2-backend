@@ -4,8 +4,7 @@ global = require('./global') // eslint-disable-line no-global-assign
 
 const server = Hapi.server({
   port: 3000,
-  host: '192.168.178.15',
-  // host: 'localhost',
+  host: 'localhost',
   routes: { cors: true }
 })
 
