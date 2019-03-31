@@ -1,23 +1,23 @@
 module.exports = {
   hashtags: {
-    "mappings" : {
-      "_doc" : {
-        "properties" : {
-          "category" : {
-            "type" : "text",
-            "fields" : {
-              "keyword" : {
-                "type" : "keyword"
+    'mappings': {
+      '_doc': {
+        'properties': {
+          'category': {
+            'type': 'text',
+            'fields': {
+              'keyword': {
+                'type': 'keyword'
               }
             },
-            "fielddata" : true
+            'fielddata': true
           },
-          "name" : {
-            "type" : "text",
-            "fields" : {
-              "keyword" : {
-                "type" : "keyword",
-                "ignore_above" : 256
+          'name': {
+            'type': 'text',
+            'fields': {
+              'keyword': {
+                'type': 'keyword',
+                'ignore_above': 256
               }
             }
           }
@@ -26,133 +26,133 @@ module.exports = {
     }
   },
 
-  instagram_posts : {
-    "mappings" : {
-      "_doc" : {
-        "properties" : {
-          "category" : {
-            "type" : "text",
-            "fields" : {
-              "keyword" : {
-                "type" : "keyword",
-                "ignore_above" : 256
+  instagram_posts: {
+    'mappings': {
+      '_doc': {
+        'properties': {
+          'category': {
+            'type': 'text',
+            'fields': {
+              'keyword': {
+                'type': 'keyword',
+                'ignore_above': 256
               }
             },
-            "fielddata" : true
+            'fielddata': true
           },
-          "commentsCount" : {
-            "type" : "long"
+          'commentsCount': {
+            'type': 'long'
           },
-          "hashtag" : {
-            "type" : "text",
-            "fields" : {
-              "keyword" : {
-                "type" : "keyword",
-                "ignore_above" : 256
+          'hashtag': {
+            'type': 'text',
+            'fields': {
+              'keyword': {
+                'type': 'keyword',
+                'ignore_above': 256
               }
             },
-            "fielddata" : true
+            'fielddata': true
           },
-          "id" : {
-            "type" : "long"
+          'id': {
+            'type': 'long'
           },
-          "likeCount" : {
-            "type" : "long"
+          'likeCount': {
+            'type': 'long'
           },
-          "mediaType" : {
-            "type" : "text",
-            "fields" : {
-              "keyword" : {
-                "type" : "keyword",
-                "ignore_above" : 256
+          'mediaType': {
+            'type': 'text',
+            'fields': {
+              'keyword': {
+                'type': 'keyword',
+                'ignore_above': 256
               }
             }
           },
-          "userFollowerCount" : {
-            "type" : "long"
+          'userFollowerCount': {
+            'type': 'long'
           },
-          "userId" : {
-            "type" : "text",
-            "fielddata" : true
+          'userId': {
+            'type': 'text',
+            'fielddata': true
           },
-          "userMediaCount" : {
-            "type" : "long"
+          'userMediaCount': {
+            'type': 'long'
           },
-          "userName" : {
-            "type" : "text",
-            "fields" : {
-              "keyword" : {
-                "type" : "keyword",
-                "ignore_above" : 256
+          'userName': {
+            'type': 'text',
+            'fields': {
+              'keyword': {
+                'type': 'keyword',
+                'ignore_above': 256
               }
             },
-            "fielddata" : true
+            'fielddata': true
           }
         }
       }
     }
   },
-  
+
   twitter_tweets: {
-    "mappings" : {
-      "_doc" : {
-        "properties" : {
-          "category" : {
-            "type" : "text",
-            "fields" : {
-              "keyword" : {
-                "type" : "keyword",
-                "ignore_above" : 256
+    'mappings': {
+      '_doc': {
+        'properties': {
+          'category': {
+            'type': 'text',
+            'fields': {
+              'keyword': {
+                'type': 'keyword',
+                'ignore_above': 256
               }
             },
-            "fielddata" : true
+            'fielddata': true
           },
-          "hashtag" : {
-            "type" : "text",
-            "fields" : {
-              "keyword" : {
-                "type" : "keyword",
-                "ignore_above" : 256
+          'hashtag': {
+            'type': 'text',
+            'fields': {
+              'keyword': {
+                'type': 'keyword',
+                'ignore_above': 256
               }
             },
-            "fielddata" : true
+            'fielddata': true
           },
-          "likeCount" : {
-            "type" : "long"
+          'likeCount': {
+            'type': 'long'
           },
-          "name" : {
-            "type" : "text",
-            "fields" : {
-              "keyword" : {
-                "type" : "keyword",
-                "ignore_above" : 256
+          'name': {
+            'type': 'text',
+            'fields': {
+              'keyword': {
+                'type': 'keyword',
+                'ignore_above': 256
               }
             }
           },
-          "replyCount" : {
-            "type" : "long"
+          'replyCount': {
+            'type': 'long'
           },
-          "retweetCount" : {
-            "type" : "long"
+          'retweetCount': {
+            'type': 'long'
           },
-          "screenName" : {
-            "type" : "text",
-            "fields" : {
-              "keyword" : {
-                "type" : "keyword",
-                "ignore_above" : 256
+          'screenName': {
+            'type': 'text',
+            'fields': {
+              'keyword': {
+                'type': 'keyword',
+                'ignore_above': 256
               }
             }
           },
-          "tweetId" : {
-            "type" : "long"
+          'tweetId': {
+            'type': 'long'
           },
-          "userName" : {
-            "type" : "text",
-            "fielddata" : true
+          'userName': {
+            'type': 'text',
+            'fielddata': true
           },
-          "userid" : {
-            "type" : "long"
+          'userid': {
+            'type': 'long'
           }
         }
       }

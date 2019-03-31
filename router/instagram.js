@@ -67,7 +67,6 @@ module.exports = [
     }
   },
 
-
   {
     method: 'GET',
     path: '/instagram/savePostsFromApi',
@@ -88,11 +87,10 @@ module.exports = [
     method: 'GET',
     path: '/instagram/test',
     handler: async (request, h) => {
-
       try {
         await igFun.getUser(1)
       } catch (ex) {
-        Log.error('Error while try to get #' + name)
+        Log.error('Error in testing path')
         return {}
       }
     }

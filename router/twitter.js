@@ -82,7 +82,6 @@ module.exports = [
     }
   },
 
-    
   {
     method: 'GET',
     path: '/twitter/retweet',

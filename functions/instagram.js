@@ -37,7 +37,7 @@ async function getPostsByHashtag (hashtag) {
   const res = await client.search({
     index: 'instagram_posts',
     q: 'hashtag:' + hashtag,
-    size: 10000,
+    size: 10000
   })
 
   return res.hits.hits

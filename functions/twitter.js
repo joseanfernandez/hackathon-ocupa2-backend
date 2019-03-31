@@ -1,4 +1,4 @@
-async function follow(id, action) {
+async function follow (id, action) {
   let act
   action === 'follow' ? act = 'create.json' : act = 'destroy.json'
   const url = urlOcupa2 + 'twitter/1.1/friendships/' + act + '?user_id=' + id + '&bearer=' + config.twKey
@@ -12,7 +12,7 @@ async function follow(id, action) {
   }
 }
 
-async function getMetadataTweet(id) {
+async function getMetadataTweet (id) {
   const url = urlOcupa2 + 'twitter/1.1/statuses/retweets/' + id + '.json'
 
   const { payload } = await Wreck.get(url)
@@ -25,7 +25,7 @@ async function getMetadataTweet(id) {
   }
 }
 
-async function getTweetsByCategory(category) {
+async function getTweetsByCategory (category) {
   const res = await client.search({
     index: 'twitter_tweets',
     q: 'category:' + category,
@@ -35,7 +35,7 @@ async function getTweetsByCategory(category) {
   return res.hits.hits
 }
 
-async function getTweetsByHashtag(hashtag) {
+async function getTweetsByHashtag (hashtag) {
   const res = await client.search({
     index: 'twitter_tweets',
     q: 'hashtag:' + hashtag,
@@ -45,7 +45,7 @@ async function getTweetsByHashtag(hashtag) {
   return res.hits.hits
 }
 
-async function getTweetsFromApi(name) {
+async function getTweetsFromApi (name) {
   const url = urlOcupa2 + 'twitter/1.1/search/tweets.json?q=' + name
 
   Log.info(url)
@@ -55,7 +55,7 @@ async function getTweetsFromApi(name) {
     let payson = JSON.parse(payload)
     let tweets = []
 
-    const uniqueArray = await removeDuplicates(payson, "tweetId");
+    const uniqueArray = await removeDuplicates(payson, 'tweetId')
 
     for (let i in uniqueArray) {
       const res = await getMetadataTweet(payson[i].tweetId)
@@ -77,7 +77,7 @@ async function getTweetsFromApi(name) {
   }
 }
 
-async function like(id, action) {
+async function like (id, action) {
   let act
   action === 'like' ? act = 'create.json' : act = 'destroy.json'
   const url = urlOcupa2 + 'twitter/1.1/favorites/' + act + '?id=' + id + '&bearer=' + config.twKey
@@ -91,21 +91,22 @@ async function like(id, action) {
   }
 }
 
-async function removeDuplicates(originalArray, prop) {
-  var newArray = [];
-  var lookupObject  = {};
+async function removeDuplicates (originalArray, prop) {
+  var newArray = []
+  var lookupObject = {}
 
-  for(var i in originalArray) {
-     lookupObject[originalArray[i][prop]] = originalArray[i];
+  for (var i in originalArray) {
+    lookupObject[originalArray[i][prop]] = originalArray[i]
   }
 
-  for(i in lookupObject) {
-      newArray.push(lookupObject[i]);
+  for (i in lookupObject) {
+    newArray.push(lookupObject[i])
   }
-   return newArray;
+  return newArray
 }
 
-async function retweet(id, action) {
+async function retweet (id, action) {
+  let act
   action === 'retweet' ? act = 'retweet' : act = 'unretweet'
   const url = urlOcupa2 + 'twitter/1.1/statuses/' + act + '/' + id + '.json?bearer=' + config.twKey
   const { payload } = await Wreck.get(url)
@@ -118,7 +119,7 @@ async function retweet(id, action) {
   }
 }
 
-async function saveTweetsFromApi(name) {
+async function saveTweetsFromApi (name) {
   const url = urlOcupa2 + 'twitter/1.1/search/tweets.json?q=' + name
 
   Log.info(url)
@@ -128,7 +129,7 @@ async function saveTweetsFromApi(name) {
     let payson = JSON.parse(payload)
     let tweets = []
 
-    const uniqueArray = await removeDuplicates(payson, "tweetId");
+    const uniqueArray = await removeDuplicates(payson, 'tweetId')
 
     for (let i in uniqueArray) {
       const res = await getMetadataTweet(payson[i].tweetId)
