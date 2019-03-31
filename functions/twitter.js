@@ -134,7 +134,7 @@ async function saveTweetsFromApi(name) {
       tweet.retweetCount = res.retweetCount ? res.retweetCount : 0
       tweet.replyCount = res.replyCount ? res.replyCount : 0
       tweet.hashtag = name
-      tweet.category = await searchCategory(name)
+      tweet.category = await fun.searchCategory(name)
       Log.info(tweet)
       tweets.push(tweet)
       await client.index({
@@ -143,7 +143,7 @@ async function saveTweetsFromApi(name) {
         id: tweet.tweetId,
         body: tweet
       }).then(res => {
-        res.result === 'created' ? Log.info('#' + name + ' saved') : Log.error('Error')
+        res.result === 'created' ? Log.info('Created') : Log.error('Error')
       })
     }
 

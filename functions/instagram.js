@@ -67,7 +67,7 @@ async function savePostsFromApi (name, type) {
     Log.info(payson.data)
     const posts = payson.data
     for (let i in posts) {
-      const exists = await searchPostById(posts[i].id)
+      const exists = await getPostById(posts[i].id)
 
       if (exists) {
         await client.update({
@@ -81,7 +81,7 @@ async function savePostsFromApi (name, type) {
             }
           }
         }).then(res => {
-          res.result === 'created' ? Log.info('#' + name + ' saved') : Log.error('Error')
+          res.result === 'created' ? Log.info('Updated') : Log.error('Error')
         })
       } else {
         const userId = await getMetadataPost(posts[i].id)
@@ -94,7 +94,7 @@ async function savePostsFromApi (name, type) {
           id: posts[i].id,
           body: posts[i]
         }).then(res => {
-          res.result === 'created' ? Log.info('#' + name + ' saved') : Log.error('Error')
+          res.result === 'created' ? Log.info('Created') : Log.error('Error')
         })
       }
     }
@@ -104,28 +104,38 @@ async function savePostsFromApi (name, type) {
   }
 }
 
-async function getPostByCategory (category) {
+async function getPostsByCategory (category) {
   const res = await client.search({
     index: 'instagram_posts',
     q: 'category:' + category
   })
 
-  return res.hits.hits.length > 0
+  return res.hits.hits
 }
 
-async function getPostByHashtag (hashtag) {
+async function getPostsByHashtag (hashtag) {
   const res = await client.search({
     index: 'instagram_posts',
     q: 'hashtag:' + hashtag
   })
 
+  return res.hits.hits
+}
+
+async function getPostById (id) {
+  const res = await client.search({
+    index: 'instagram_posts',
+    q: 'id:' + id
+  })
+
   return res.hits.hits.length > 0
 }
 
+
 module.exports = {
   follow,
-  getPostByCategory,
-  getPostByHashtag,
+  getPostsByCategory,
+  getPostsByHashtag,
   getUser,
   like,
   savePostsFromApi
