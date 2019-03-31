@@ -2,10 +2,19 @@
 
 ## Primeros pasos
 
-* Si no dispones de elasticsearch, puedes descargarlo [aquí](https://www.elastic.co/es/start)
-* ```console
+* Si no dispones de elasticsearch, puedes descargarlo [aquí](https://www.elastic.co/es/start).
+* Descarga el proyecto, instala dependencias y arranca el proyecto.
+```console
+    git clone https://github.com/joseanfernandez/hackathon-ocupa2-backend.git
+    cd hackathon-ocupa2-backend
+    npm install
     npm start
 ```
+
+* Usa las dos primeras rutas del apartado **General** en el orden establecido:
+    - /elasticSetup
+    - /populateHashtagIndex
+  Con esto tendrás creados los índices necesarios y almacenado los hashtags con su id para futuras consultas.
 
 
 ## General
