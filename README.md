@@ -18,23 +18,23 @@
   GET /twitter/getTweets/category?name={category}  
 ```
 
-(Usa nuestra bbdd elasticsearch)
+  (Usa nuestra bbdd elasticsearch)
 * **Tweets por hashtag**
 ```console
   GET /twitter/getTweets/hashtag?name={hashtag}  
 ```
 
-(Usa nuestra bbdd elasticsearch)
+  (Usa nuestra bbdd elasticsearch)
 * **Tweets desde la API**
 ```console
   GET /twitter/getTweetsFromApi?name={hashtag}  
 ```
 
-(Usa directamente la API proporcionada, devolviendo tweet con detalles)
+  (Usa directamente la API proporcionada, devolviendo tweet con detalles)
 * **Guardar tweets desde la API**
 ```console
   GET /twitter/saveTweetsFromApi?name={hashtag}  
 ```
 
-(Guarda en elasticsearch todos los tweets con detalles)
+  (Guarda en elasticsearch todos los tweets con detalles)
 ### Instagram
