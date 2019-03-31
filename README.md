@@ -1,5 +1,13 @@
 # Documentación
 
+## Primeros pasos
+
+* Si no dispones de elasticsearch, puedes descargarlo [aquí](https://www.elastic.co/es/start)
+* ```console
+    npm start
+```
+
+
 ## General
 * **Configuración de elasticsearch**
 ```console
