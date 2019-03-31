@@ -38,3 +38,11 @@
 
   (Guarda en elasticsearch todos los tweets con detalles)
 ## Instagram
+* **Follow** 
+```console
+  GET /instagram/follow?id={user_id}&action={follow/unfollow}
+```
+* **Like**
+```console
+  GET /instagram/like?id={tweetId}&action={like/dislike}
+```
