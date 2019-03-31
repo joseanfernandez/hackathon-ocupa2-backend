@@ -44,7 +44,7 @@
 ```
 * **Like**
 ```console
-  GET /instagram/like?id={tweetId}&action={like/dislike}
+  GET /instagram/like?id={postId}&action={like/dislike}
 ```
 * **Posts por categoría**
 ```console
@@ -58,3 +58,9 @@
 ```
 
   (Usa nuestra bbdd elasticsearch)
+* **Guardar posts desde la API**
+```console
+  GET /instagram/savePostsFromApi?name={hashtag}  
+```
+
+  (Guarda en elasticsearch todos los posts con detalles)
