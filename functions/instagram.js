@@ -15,7 +15,6 @@ async function getMetadataPost (id) {
   const { payload } = await Wreck.get(url)
   if (payload.length > 0) {
     let payson = JSON.parse(payload)
-    Log.info(payson)
     return payson[0].userId
   } else {
     Log.error('empty')
@@ -57,7 +56,6 @@ async function getUser (id) {
   const { payload } = await Wreck.get(url)
   if (payload.length > 0) {
     let payson = JSON.parse(payload)
-    Log.info(payson[0])
     return payson[0]
   } else {
     Log.error('empty')
@@ -87,13 +85,9 @@ async function savePostsFromApi (name, type) {
 
   const url = urlOcupa2 + 'instagram/' + id + '/' + type + '?user_id=' + config.igUserid
 
-  Log.info(url)
-
   const { payload } = await Wreck.get(url)
-  Log.info(payload)
   if (payload.length > 0) {
     let payson = JSON.parse(payload)
-    Log.info(payson.data)
     const posts = payson.data
     for (let i in posts) {
       const exists = await getPostById(posts[i].id)
@@ -116,7 +110,6 @@ async function savePostsFromApi (name, type) {
         const userId = await getMetadataPost(posts[i].id)
         posts[i].userId = userId
         const user = await getUser(userId)
-        Log.error(user)
         posts[i].userName = user.username
         posts[i].userFollowerCount = user.followerCount
         posts[i].userMediaCount = user.mediaCount
